@@ -1,0 +1,58 @@
+###########################################
+# Syntax Coloring Map For EPaperDrive-library
+###########################################
+
+###########################################
+# Datatypes (KEYWORD1)
+###########################################
+
+EPaperDrive		KEYWORD1
+
+###########################################
+# Methods and Functions (KEYWORD2)
+###########################################
+
+deepsleep	KEYWORD2
+SetFS	KEYWORD2
+SetHardSPI	KEYWORD2
+EPD_Set_Model	KEYWORD2
+EPD_init_Full	KEYWORD2
+EPD_init_Part	KEYWORD2
+EPD_Dis_Full	KEYWORD2
+EPD_Dis_Part	KEYWORD2
+EPD_Transfer_Full_BW	KEYWORD2
+EPD_Transfer_Full_RED	KEYWORD2
+EPD_Transfer_Part	KEYWORD2
+SetFont	KEYWORD2
+DrawUTF	KEYWORD2
+DrawUnicodeChar	KEYWORD2
+DrawUnicodeStr	KEYWORD2
+clearbuffer	KEYWORD2
+DrawYline	KEYWORD2
+DrawXline	KEYWORD2
+DrawLine	KEYWORD2
+Inverse	KEYWORD2
+DrawWeatherChart	KEYWORD2
+DrawCircle	KEYWORD2
+DrawBox	KEYWORD2
+DrawEmptyBox	KEYWORD2
+DrawChart	KEYWORD2
+DrawCircleChart	KEYWORD2
+drawXbm	KEYWORD2
+DrawXbm_P	KEYWORD2
+DrawXbm_p_gray	KEYWORD2
+DrawXbm_spiff_gray	KEYWORD2
+EPD_Set_Contrast	KEYWORD2
+EPD_Update	KEYWORD2
+EPD_Update_Part	KEYWORD2
+ReadBusy	KEYWORD2
+ReadBusy_long	KEYWORD2
+EPD_WriteCMD	KEYWORD2
+EPD_WriteData	KEYWORD2
+EPD_Write	KEYWORD2
+
+fontscale	KEYWORD3
+EPDbuffer	KEYWORD3
+
+FONT	 KEYWORD3
+epd_type KEYWORD3

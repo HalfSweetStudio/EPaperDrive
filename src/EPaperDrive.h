@@ -4,7 +4,16 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#if defined(ESP8266)
 #include "FS.h"
+#else
+#if defined(ESP32)
+#include "FS.h"
+#include <LittleFS.h>
+#include <SPIFFS.h>
+#include <FFat.h>
+#endif
+#endif
 #include "WAVEFORM_SETTING_LUT.h"
 
 extern uint8_t UNICODEbuffer[200];
@@ -60,6 +69,13 @@ enum epd_type
   GDEY042Z98 = 11,     // SSD1683
   HINKE0266A15A0 = 12, // SSD1675
 };
+
+enum EPDFS
+{
+  littlefs = 0,
+  spiffs = 1,
+  fatfs = 2,
+};
 /*
  * 典型使用流程
  * 1.EPD_init_Full/EPD_init_Part初始化
@@ -110,7 +126,7 @@ public:
    *
    * @param userFS 应当传入的文件系统的指针
    */
-  void SetFS(FS *userFS);
+  void SetFS(fs::FS* FSType);
 
   /**
    * @brief 设置采用硬件spi的通道（用户请先初始化SPI之后再传入对应SPI的指针）
@@ -170,7 +186,7 @@ public:
    * @brief 直接向RAM中写全刷的红色图片
    *
    * @param DisBuffer 应当写入的图像缓存指针
-   * @param Label 应该刷的图像，1为传入的缓存；2为全白；3为全黑
+   * @param Label 应该刷的图像，1为传入的缓存；2为全白；3为全红
    */
   void EPD_Transfer_Full_RED(uint8_t *DisBuffer, uint8_t Label);
 
@@ -456,7 +472,9 @@ private:
   uint8_t _DIN;
   bool _SPIMode;
 
-  FS *UserFS;
+  fs::FS *UserFS;
+
+
   SPIClass *MySPI;
 
   uint8_t FontIndex;
@@ -486,4 +504,6 @@ private:
   void InversePixel(int16_t x, int16_t y);
   void DrawUTF(int16_t x, int16_t y, uint8_t width, uint8_t height, uint8_t *code);
   int UTFtoUNICODE(uint8_t *code);
+
+
 };

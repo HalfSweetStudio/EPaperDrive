@@ -56,6 +56,7 @@ void setup()
 #endif
 #endif
   EPD.SetHardSPI(&SPI);
+  LittleFS.begin();
   EPD.SetFS(&LittleFS); //设置存放字体的文件系统，传入的为该文件系统的操作指针，可自行修改
 
   EPD.EPD_Set_Model(HINKE0266A15A0);                  //设置屏幕类型，具体型号可以参考文档

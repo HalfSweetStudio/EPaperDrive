@@ -1,13 +1,3 @@
-/**
- * @file HelloWorld.ino
- * @author HalfSweet (Email:HalfSweet@HalfSweet.cn or QQ:2522182733)
- * @brief 该文件为墨水屏驱动显示Hello World的示例程序，此文件仅仅作为最简单的点亮屏幕，具体的函数用法请参阅文档
- * @version 0.1
- * @date 2022-01-30
- *
- * @copyright Copyright (c) 2022
- *
- */
 #include <Arduino.h>
 #include <EPaperDrive.h>
 //包含你需要使用的文件系统,例如：
@@ -19,9 +9,8 @@
 #define RST 2
 #define DC 0
 #define BUSY 4
-#define CLK 14
-#define DIN 13
-EPaperDrive EPD(0, CS, RST, DC, BUSY, CLK, DIN); //驱动库的实例化，此处为使用软件SPI
+
+EPaperDrive EPD(1, CS, RST, DC, BUSY); //驱动库的实例化，此处为使用硬件SPI
 
 const uint8_t city_icon[24] = {
     /* 0X01,0X01,0X0C,0X00,0X0C,0X00, */
@@ -54,7 +43,19 @@ const uint8_t city_icon[24] = {
 void setup()
 {
   Serial.begin(BAUD_SPEED);
-  LittleFS.begin();     //请务必先手动初始化一遍文件系统再将指针传入
+#if defined(ESP8266)
+  SPI.begin();
+  SPI.beginTransaction(SPISettings(20000000, MSBFIRST, SPI_MODE0));
+#else
+#if defined(ESP32)
+  SPIClass SPI(HSPI); //可自行更换SPI通道
+  SPI.begin();
+  SPI.beginTransaction(SPISettings(20000000, MSBFIRST, SPI_MODE0));
+#else
+#error 不支持您的MCU
+#endif
+#endif
+  EPD.SetHardSPI(&SPI);
   EPD.SetFS(&LittleFS); //设置存放字体的文件系统，传入的为该文件系统的操作指针，可自行修改
 
   EPD.EPD_Set_Model(HINKE0266A15A0);                  //设置屏幕类型，具体型号可以参考文档

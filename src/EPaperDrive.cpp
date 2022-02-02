@@ -4,7 +4,7 @@
 uint8_t UNICODEbuffer[200];
 String fontname;
 
-EPaperDrive::EPaperDrive(bool SPIMode,uint8_t CS, uint8_t RST, uint8_t DC, uint8_t BUSY, uint8_t CLK, uint8_t DIN)
+EPaperDrive::EPaperDrive(bool SPIMode, uint8_t CS, uint8_t RST, uint8_t DC, uint8_t BUSY, uint8_t CLK, uint8_t DIN)
 {
     _CS = CS;
     _RST = RST;
@@ -40,13 +40,12 @@ void EPaperDrive::driver_delay_xms(unsigned long xms)
     delay(xms);
 }
 
-void EPaperDrive::SetFS(FS* userFS)
+void EPaperDrive::SetFS(fs::FS* FSType)
 {
-    UserFS = userFS;
-    UserFS->begin();
+    UserFS = FSType;
 }
 
-void EPaperDrive::SetHardSPI(SPIClass* spi)
+void EPaperDrive::SetHardSPI(SPIClass *spi)
 {
     MySPI = spi;
 }
@@ -666,6 +665,7 @@ void EPaperDrive::DrawUnicodeChar(int16_t x, int16_t y, uint8_t width, uint8_t h
     // Serial.println(code[1]);
     // Serial.println("sizeofsinglechar");
     // Serial.println(sizeofsinglechar);
+    // File f = UserFS->open(fontname, "r");
     File f = UserFS->open(fontname, "r");
     f.seek(offset, SeekSet);
     char zi[sizeofsinglechar];
@@ -864,6 +864,7 @@ void EPaperDrive::DrawXbm_p_gray(int16_t xMove, int16_t yMove, int16_t width, in
 }
 void EPaperDrive::DrawXbm_spiff_gray(int16_t xMove, int16_t yMove, int16_t width, int16_t height, uint8_t level)
 {
+// File f = UserFS->open("/pic.xbm", "r");
     File f = UserFS->open("/pic.xbm", "r");
 
     int16_t heightInXbm = (height + 1) / 2;
@@ -1414,7 +1415,7 @@ void EPaperDrive::EPD_WriteDispRam_Old(unsigned int XSize, unsigned int YSize, u
 }
 
 void EPaperDrive::EPD_SetRamArea(uint16_t Xstart, uint16_t Xend,
-                              uint8_t Ystart, uint8_t Ystart1, uint8_t Yend, uint8_t Yend1)
+                                 uint8_t Ystart, uint8_t Ystart1, uint8_t Yend, uint8_t Yend1)
 {
     if (EPD_Type == WX29 || EPD_Type == OPM42 || EPD_Type == DKE42_3COLOR || EPD_Type == DKE29_3COLOR || EPD_Type == GDEY042Z98 || EPD_Type == HINKE0266A15A0)
     {
@@ -2421,13 +2422,13 @@ void EPaperDrive::EPD_Dis_Full(uint8_t *DisBuffer, uint8_t Label)
         nowtime = millis() - nowtime;
 
         int updatatime = nowtime;
-        //Serial.printf("开始全刷 \n");
+        // Serial.printf("开始全刷 \n");
         ReadBusy_long();
         ReadBusy_long();
         ReadBusy_long();
         ReadBusy_long();
         nowtime = millis() - nowtime;
-        //Serial.printf("全刷结束，耗时%dms", nowtime - updatatime);
+        // Serial.printf("全刷结束，耗时%dms", nowtime - updatatime);
         if (EPD_Type == DKE29_3COLOR)
         {
             // EPD_Transfer_Full_RED((uint8_t *)EPDbuffer,1);
@@ -2603,7 +2604,7 @@ void EPaperDrive::EPD_Transfer_Part(int xStart, int xEnd, int yStart, int yEnd, 
         // EPD_WriteDispRam(Xsize, Ysize,(uint8_t *)DisBuffer,offset,1);
     }
 
-    else if (EPD_Type == WF29 || EPD_Type == WF58 || EPD_Type == WF42 || EPD_Type == WF29BZ03  || EPD_Type == WFT0290CZ10)
+    else if (EPD_Type == WF29 || EPD_Type == WF58 || EPD_Type == WF42 || EPD_Type == WF29BZ03 || EPD_Type == WFT0290CZ10)
     {
 
         EPD_SetRamArea(xStart, xEnd, yStart / 256, yStart % 256, yEnd / 256, yEnd % 256);

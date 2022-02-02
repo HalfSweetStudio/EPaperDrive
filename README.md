@@ -2,7 +2,7 @@
 这是一个简单好用性能强大的Arduino墨水屏驱动库，支持目前市面上较常见的多种墨水屏。
 
 ## 我应该如何使用它？
-请着重参考[例程](https://github.com/HalfSweetStudio/EPaperDrive/tree/main/examples)与[API手册](docs/API手册.md)，如果您遇到了例程不能使用的情况，请提交issue说明详细情况。
+请着重参考[例程](https://github.com/HalfSweetStudio/EPaperDrive/tree/main/examples)、[API手册](docs/API手册.md)以及[用户手册](docs/用户手册.md)，如果您遇到了例程不能使用的情况，请提交issue说明详细情况。
 
 ## 我应该采用什么样的驱动电路？
 事实上，几乎所有的串口SPI的墨水屏驱动电路以及引脚定义都是相同的，如果您有微雪或者大连佳显等厂商提供的驱动板，您开源直接使用它。如果您是裸屏，那么我建议您采用这款[驱动板](https://oshwhub.com/ludas/mo-shui-ping-qu-dong)。需要注意的是，请您采用4-wire模式来驱动墨水屏，我们暂不支持3-wire模式。

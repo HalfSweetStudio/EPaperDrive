@@ -54,7 +54,6 @@ const uint8_t city_icon[24] = {
 void setup()
 {
   Serial.begin(BAUD_SPEED);
-  LittleFS.begin();     //请务必先手动初始化一遍文件系统再将指针传入
   EPD.SetFS(&LittleFS); //设置存放字体的文件系统，传入的为该文件系统的操作指针，可自行修改
 
   EPD.EPD_Set_Model(HINKE0266A15A0);                  //设置屏幕类型，具体型号可以参考文档
@@ -81,7 +80,7 @@ void setup()
   Serial.printf("开始局刷 \n");
   EPD.EPD_Dis_Part(0, 23, 0, 199, (uint8_t *)EPD.EPDbuffer, 1); //将缓存中的图像传给屏幕控制芯片局新屏幕
   Serial.printf("局刷结束 \n");
-  EPD.deepsleep();
+  EPD.deepsleep(); 
 }
 
 void loop()

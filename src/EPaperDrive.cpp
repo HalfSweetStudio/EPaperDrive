@@ -312,30 +312,30 @@ void EPaperDrive::DrawCircleChart(int x, int y, int r, int w, int c1, int c2, in
 int EPaperDrive::getIcon(int weathercodeindex)
 {
     if (weathercodeindex == 0)
-        return 12;
+        return 12;  //晴
     if (weathercodeindex == 1)
-        return 58;
+        return 58;  //多云
     if (weathercodeindex == 2)
-        return 58;
+        return 58;  //少云
     if (weathercodeindex == 3)
-        return 58;
+        return 58;  //晴间多云
     if (weathercodeindex == 4)
-        return 54;
+        return 54;  //阴
     if (weathercodeindex >= 5 && weathercodeindex <= 18)
         return 0;
     if (weathercodeindex >= 19 && weathercodeindex <= 32)
-        return 19;
+        return 19; //雨
     if (weathercodeindex >= 33 && weathercodeindex <= 36)
-        return 16;
+        return 16; //雪
     if (weathercodeindex >= 37 && weathercodeindex <= 40)
-        return 16;
+        return 16; //雪(雨夹雪)
     if (weathercodeindex == 41)
-        return 37;
+        return 37;  //雾(薄雾)
     if (weathercodeindex == 42)
-        return 37;
+        return 37;  //雾
     if (weathercodeindex == 43)
-        return 37;
-    return 17;
+        return 37;  //雾(霾)
+    return 17;  //阵雨夹雪
 }
 void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int point_n, int show_n, String tmax, String tmin, String code_d, String code_n, String text_d, String text_n, String date, String week) //绘制天气温度变化曲线
 {

@@ -182,8 +182,8 @@ void EPaperDrive::DrawEmptyBox(int x, int y, int w, int h)
 {
     DrawXline(y, y + w, x);
     DrawXline(y, y + w, x + h);
-    DrawYline(x, x + w, y);
-    DrawYline(x, x + w, y + w);
+    DrawYline(x, x + h, y);
+    DrawYline(x, x + h, y + w);
 }
 
 void EPaperDrive::DrawChart(int x, int y, int w, int c1, int c2, int c3, int c4, int c5, int c6)
@@ -2086,8 +2086,8 @@ void EPaperDrive::EPD_init_Full(void)
         // Serial.printf("即将写入全刷波形 \n");
         EPD_Write((uint8_t *)LUTDefault_full_GDEY042Z98, sizeof(LUTDefault_full_GDEY042Z98));
 
-        EPD_WriteCMD(0x3F);
-        EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 227 + 1));
+        //EPD_WriteCMD(0x3F);
+        //EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 227 + 1));
 
         EPD_WriteCMD(0x03); //门电压   gate voltage
         EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 228 + 1));
@@ -2452,6 +2452,10 @@ void EPaperDrive::EPD_Dis_Full(uint8_t *DisBuffer, uint8_t Label)
 
     else if (EPD_Type == WF29 || EPD_Type == WF58 || EPD_Type == WF29BZ03 || EPD_Type == C154 || EPD_Type == WF42 || EPD_Type == WFT0290CZ10)
     {
+        if(EPD_Type == WFT0290CZ10)
+        {
+            EPD_WriteDispRam_Old(xDot / 8, yDot, (uint8_t *)DisBuffer, 0, 0xff);
+        }
         if (Label == 2)
         {
             EPD_WriteDispRam(xDot / 8, yDot, (uint8_t *)DisBuffer, 0, 0xff); // white

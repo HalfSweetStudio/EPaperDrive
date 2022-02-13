@@ -463,6 +463,11 @@ public:
    */
   void EPD_Write(uint8_t *value, uint8_t datalen);
 
+  void EPD_WriteDispRam_Old(unsigned int XSize, unsigned int YSize, uint8_t *Dispbuff, unsigned int offset, uint8_t label);
+    void EPD_WriteDispRam(unsigned int XSize, unsigned int YSize, uint8_t *Dispbuff, unsigned int offset, uint8_t label);
+    void EPD_SetRamPointer(uint16_t addrX, uint8_t addrY, uint8_t addrY1);
+
+
 private:
   uint8_t _CS;
   uint8_t _RST;
@@ -489,14 +494,13 @@ private:
   void driver_delay_xms(unsigned long xms);
 
   void EPD_WriteDispRam_RED(unsigned int XSize, unsigned int YSize, uint8_t *Dispbuff, unsigned int offset, uint8_t label);
-  void EPD_WriteDispRam(unsigned int XSize, unsigned int YSize, uint8_t *Dispbuff, unsigned int offset, uint8_t label);
   // void EPD_SetRamArea(uint16_t Xstart,uint16_t Xend,uint8_t Ystart,uint8_t Ystart1,uint8_t Yend,uint8_t Yend1);
-  void EPD_SetRamPointer(uint16_t addrX, uint8_t addrY, uint8_t addrY1);
+  
   void EPD_WirteLUT(uint8_t *LUTvalue, uint8_t Size);
 
   void EPD_Init(void);
   void EPD_WriteCMD_p1(uint8_t command, uint8_t para);
-  void EPD_WriteDispRam_Old(unsigned int XSize, unsigned int YSize, uint8_t *Dispbuff, unsigned int offset, uint8_t label);
+  
   void EPD_SetRamArea(uint16_t Xstart, uint16_t Xend, uint8_t Ystart, uint8_t Ystart1, uint8_t Yend, uint8_t Yend1);
 
   int getIcon(int weathercodeindex);

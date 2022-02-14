@@ -18,6 +18,7 @@ EPaperDrive::EPaperDrive(bool SPIMode, uint8_t CS, uint8_t RST, uint8_t DC, uint
         pinMode(CS, OUTPUT); // io初始化
         pinMode(DC, OUTPUT);
         pinMode(RST, OUTPUT);
+        digitalWrite(RST, HIGH);
         pinMode(BUSY, INPUT);
         pinMode(CLK, OUTPUT);
         pinMode(DIN, OUTPUT);
@@ -27,6 +28,7 @@ EPaperDrive::EPaperDrive(bool SPIMode, uint8_t CS, uint8_t RST, uint8_t DC, uint
         pinMode(CS, OUTPUT);
         pinMode(DC, OUTPUT);
         pinMode(RST, OUTPUT);
+        digitalWrite(RST, HIGH);
         pinMode(BUSY, INPUT);
     }
 }
@@ -2530,7 +2532,7 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
             // Serial.printf("即将写入的是局刷的的0x26数据 \n");
             EPD_WriteDispRam_Old(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
         }
-        else if (EPD_Type == GDEY042Z98)
+        else if (EPD_Type == GDEY042Z98 )
         {
 
             EPD_WriteDispRam_Old(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
@@ -2540,6 +2542,10 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
         {
             EPD_SetRamPointer(xStart / 8, yEnd % 256, yEnd / 256);
             EPD_WriteDispRam_Old(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
+        }
+        else if(EPD_Type == OPM42 || EPD_Type == DKE42_3COLOR)
+        {
+            EPD_WriteDispRam(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
         }
 
         // EPD_WriteDispRam_Old(Xsize, Ysize,(uint8_t *)DisBuffer,offset,1);

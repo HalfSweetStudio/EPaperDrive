@@ -663,10 +663,11 @@ void EPaperDrive::DrawUnicodeChar(int16_t x, int16_t y, uint8_t width, uint8_t h
     else
         sizeofsinglechar = (height / 8 + 1) * width;
     offset = (code[0] * 0x100 + code[1]) * sizeofsinglechar;
+    Serial.printf("offset:%d",offset);
     // Serial.println("code[1]");
     // Serial.println(code[1]);
-    // Serial.println("sizeofsinglechar");
-    // Serial.println(sizeofsinglechar);
+    //Serial.println("sizeofsinglechar");
+    //Serial.println(sizeofsinglechar);
     // File f = UserFS->open(fontname, "r");
     File f = UserFS->open(fontname, "r");
     f.seek(offset, SeekSet);
@@ -2545,6 +2546,11 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
         }
         else if(EPD_Type == OPM42 || EPD_Type == DKE42_3COLOR)
         {
+            EPD_WriteDispRam(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
+        }
+        else if(EPD_Type == WX29)
+        {
+            EPD_SetRamPointer(xStart / 8, yEnd % 256, yEnd / 256);
             EPD_WriteDispRam(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
         }
 

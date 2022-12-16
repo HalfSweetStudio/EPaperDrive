@@ -697,7 +697,7 @@ void EPaperDrive::DrawUnicodeChar(int16_t x, int16_t y, uint8_t width, uint8_t h
             drawXbm(x, y, width, height, (uint8_t *)zi);
         } */
     // 上面这坨代码我也不知道是干啥的，看着好像没用就注释了
-    drawXbm(x, y, width, height, (uint8_t *)zi); //上面注释里面需要的东西
+    drawXbm(x, y, width, height, (uint8_t *)zi); // 上面注释里面需要的东西
     // SPIFFS.end();
 }
 
@@ -2511,8 +2511,6 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
         yEnd = yDot - temp1 - 2;
         yStart = yDot - temp2 - 3;
     }
-    unsigned int Xsize = xEnd - xStart;
-    unsigned int Ysize = yEnd - yStart + 1;
 
     switch (EPD_Type)
     {
@@ -2526,7 +2524,7 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
         }
         if (xEnd % 8 != 0)
         {
-         xEnd += (8 - xEnd % 8);
+            xEnd += (8 - xEnd % 8);
         }
         break;
 
@@ -2541,6 +2539,10 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
         }
         break;
     }
+
+    unsigned int Xsize = xEnd - xStart;
+    unsigned int Ysize = yEnd - yStart + 1;
+
     Xsize = Xsize / 8;
     unsigned int offset = yStart * xDot / 8 + xStart / 8;
     if (EPD_Type == WX29 || EPD_Type == OPM42 || EPD_Type == DKE42_3COLOR || EPD_Type == DKE29_3COLOR || EPD_Type == GDEY042Z98 || EPD_Type == HINKE0266A15A0)

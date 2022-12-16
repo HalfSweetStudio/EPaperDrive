@@ -2522,22 +2522,22 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
     case WF29:
         if (xStart % 8 != 0)
         {
-            xStart = xStart - (xStart % 8);
+            xStart -= (xStart % 8);
         }
         if (xEnd % 8 != 0)
         {
-            xEnd + (8 - xEnd % 8);
+         xEnd += (8 - xEnd % 8);
         }
         break;
 
     default:
         if (yStart % 8 != 0)
         {
-            yStart = yStart - (yStart % 8);
+            yStart -= (yStart % 8);
         }
         if (yEnd % 8 != 0)
         {
-            yEnd + (8 - yEnd % 8);
+            yEnd += (8 - yEnd % 8);
         }
         break;
     }

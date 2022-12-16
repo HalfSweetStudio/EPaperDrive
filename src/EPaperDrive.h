@@ -210,6 +210,15 @@ public:
   void SetFont(FONT fontindex);
 
   /**
+   * @brief 设置字体，使用自定义的路径以及尺寸
+   * 
+   * @param dir 字体文件的路径
+   * @param hight 字体高度
+   * @param width 字体宽度
+   */
+  void SetFont(const char *dir, uint16_t hight, uint16_t width);
+
+  /**
    * @brief 在图像缓存中画字符串
    *
    * @param x 字符串图像开始的x坐标

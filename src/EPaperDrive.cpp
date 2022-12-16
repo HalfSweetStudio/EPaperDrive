@@ -1,5 +1,5 @@
 #include "EPaperDrive.h"
-//#include "EPD_drive_gpio.h"
+// #include "EPD_drive_gpio.h"
 
 uint8_t UNICODEbuffer[200];
 String fontname;
@@ -42,7 +42,7 @@ void EPaperDrive::driver_delay_xms(unsigned long xms)
     delay(xms);
 }
 
-void EPaperDrive::SetFS(fs::FS* FSType)
+void EPaperDrive::SetFS(fs::FS *FSType)
 {
     UserFS = FSType;
 }
@@ -64,23 +64,23 @@ void EPaperDrive::SPI_Write(uint8_t value)
         // delayMicroseconds(1);
         for (int i = 0; i < 8; i++)
         {
-            //高位在前发送方式    根据升级器件特性定
+            // 高位在前发送方式    根据升级器件特性定
             if ((value & 0x80) == 0x80)
                 EPD_DIN_1;
             else
                 EPD_DIN_0;
             // delayMicroseconds(1);      //等待数据稳定  根据实际时钟调整
-            EPD_CLK_1; //上升沿发送数据
+            EPD_CLK_1; // 上升沿发送数据
             // delayMicroseconds(1);//CLK高电平保持一段时间 这个可以不需要 根据具体的spi时钟来确定
-            EPD_CLK_0;          //把时钟拉低实现为下一次上升沿发送数据做准备
-            value = value << 1; //发送数据的位向前移动一位
+            EPD_CLK_0;          // 把时钟拉低实现为下一次上升沿发送数据做准备
+            value = value << 1; // 发送数据的位向前移动一位
         }
     }
 }
 
 void EPaperDrive::SetFont(FONT fontindex)
 {
-    FontIndex = fontindex;
+    // FontIndex = fontindex;
     switch (fontindex)
     {
     case 0:
@@ -150,6 +150,14 @@ void EPaperDrive::SetFont(FONT fontindex)
         break;
     }
 }
+
+void EPaperDrive::SetFont(const char *dir, uint16_t hight, uint16_t width)
+{
+    fontname = String(dir);
+    fontwidth = width;
+    fontheight = hight;
+}
+
 void EPaperDrive::DrawCircle(int x, int y, int r, bool fill)
 {
     if (fill == 0)
@@ -339,7 +347,7 @@ int EPaperDrive::getIcon(int weathercodeindex)
         return 37;
     return 17;
 }
-void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int point_n, int show_n, String tmax, String tmin, String code_d, String code_n, String text_d, String text_n, String date, String week) //绘制天气温度变化曲线
+void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int point_n, int show_n, String tmax, String tmin, String code_d, String code_n, String text_d, String text_n, String date, String week) // 绘制天气温度变化曲线
 {
     if (tmax == ",,,,,")
     {
@@ -355,14 +363,14 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
     String code_d_a[point_n], code_n_a[point_n], text_d_a[point_n], text_n_a[point_n], date_a[point_n], week_a[point_n];
     int tmax_a[point_n], tmin_a[point_n];
     int min_data = 999, max_data = -999;
-    int tmin_x_cord[point_n], tmax_x_cord[point_n]; //将数值转成屏幕坐标
+    int tmin_x_cord[point_n], tmax_x_cord[point_n]; // 将数值转成屏幕坐标
 
     String temp_min[point_n];
     String temp_max[point_n];
     int j = 0, k = 0, l = 0;
-    //分割tmax和tmin
-    // Serial.println(tmax); Serial.println(tmin);
-    // Serial.println(code_d);
+    // 分割tmax和tmin
+    //  Serial.println(tmax); Serial.println(tmin);
+    //  Serial.println(code_d);
     for (int i = 0; i < tmin.length(); i++)
     {
         temp_min[j] += tmin[i];
@@ -379,14 +387,14 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
             k++;
     }
     j = 0;
-    //分割code_d
+    // 分割code_d
     for (int i = 0; i < code_d.length(); i++)
     {
         code_d_a[j] += code_d[i];
         if (code_d.charAt(i) == char(','))
             j++;
     }
-    //分割code_n
+    // 分割code_n
     j = 0;
     for (int i = 0; i < code_n.length(); i++)
     {
@@ -394,7 +402,7 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
         if (code_n.charAt(i) == char(','))
             j++;
     }
-    //分割text_d
+    // 分割text_d
     j = 0;
     for (int i = 0; i < text_d.length(); i++)
     {
@@ -403,7 +411,7 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
         else
             text_d_a[j] += text_d[i];
     }
-    //分割text_n
+    // 分割text_n
     j = 0;
     for (int i = 0; i < text_n.length(); i++)
     {
@@ -412,7 +420,7 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
         else
             text_n_a[j] += text_n[i];
     }
-    //分割week_n
+    // 分割week_n
     j = 0;
     for (int i = 0; i < week.length(); i++)
     {
@@ -434,7 +442,7 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
         tmax_a[i] = temp_max[i].toInt(); // Serial.printf("max:%d\n",tmax_a[i]);
         tmin_a[i] = temp_min[i].toInt(); // Serial.printf("min:%d\n",tmin_a[i]);
     }
-    //找出计算最大最小值
+    // 找出计算最大最小值
     for (int i = 0; i < show_n; i++)
     {
         if (tmax_a[i] > max_data)
@@ -446,7 +454,7 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
         if (tmin_a[i] < min_data)
             min_data = tmin_a[i];
     }
-    //转换坐标
+    // 转换坐标
     if ((max_data - min_data) != 0)
     {
         for (int i = 0; i < show_n; i++)
@@ -474,7 +482,7 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
 
   }
  */
-    //画折线
+    // 画折线
     for (int i = 0; i < show_n - 1; i++)
     {
         DrawLine(tmin_x_cord[i], ymin + dy * i, tmin_x_cord[i + 1], ymin + dy * (i + 1));
@@ -483,7 +491,7 @@ void EPaperDrive::DrawWeatherChart(int xmin, int xmax, int ymin, int ymax, int p
         // DrawLine(tmin_x_cord[i]-1,ymin+dy*i,tmin_x_cord[i+1]-1,ymin+dy*(i+1));
         // DrawLine(tmax_x_cord[i]-1,ymin+dy*i,tmax_x_cord[i+1]-1,ymin+dy*(i+1));
     }
-    //画圆圈，添加标注
+    // 画圆圈，添加标注
     for (int i = 0; i < show_n; i++)
     {
         DrawCircle(tmin_x_cord[i], ymin + dy * i, 3, 1);
@@ -663,11 +671,11 @@ void EPaperDrive::DrawUnicodeChar(int16_t x, int16_t y, uint8_t width, uint8_t h
     else
         sizeofsinglechar = (height / 8 + 1) * width;
     offset = (code[0] * 0x100 + code[1]) * sizeofsinglechar;
-    Serial.printf("offset:%d",offset);
+    Serial.printf("offset:%d", offset);
     // Serial.println("code[1]");
     // Serial.println(code[1]);
-    //Serial.println("sizeofsinglechar");
-    //Serial.println(sizeofsinglechar);
+    // Serial.println("sizeofsinglechar");
+    // Serial.println(sizeofsinglechar);
     // File f = UserFS->open(fontname, "r");
     File f = UserFS->open(fontname, "r");
     f.seek(offset, SeekSet);
@@ -680,14 +688,15 @@ void EPaperDrive::DrawUnicodeChar(int16_t x, int16_t y, uint8_t width, uint8_t h
     }*/
     // Serial.println("offset");
     // Serial.println(offset);
-    if (offset < 0xff * sizeofsinglechar && FontIndex < 10)
-    {
-        drawXbm(x, y, width, height, (uint8_t *)zi);
-    }
-    else
-    {
-        drawXbm(x, y, width, height, (uint8_t *)zi);
-    }
+    /*     if (offset < 0xff * sizeofsinglechar && FontIndex < 10)
+        {
+            drawXbm(x, y, width, height, (uint8_t *)zi);
+        }
+        else
+        {
+            drawXbm(x, y, width, height, (uint8_t *)zi);
+        } */
+    // 上面这坨代码我也不知道是干啥的，看着好像没用就注释了
 
     // SPIFFS.end();
 }
@@ -867,7 +876,7 @@ void EPaperDrive::DrawXbm_p_gray(int16_t xMove, int16_t yMove, int16_t width, in
 }
 void EPaperDrive::DrawXbm_spiff_gray(int16_t xMove, int16_t yMove, int16_t width, int16_t height, uint8_t level)
 {
-// File f = UserFS->open("/pic.xbm", "r");
+    // File f = UserFS->open("/pic.xbm", "r");
     File f = UserFS->open("/pic.xbm", "r");
 
     int16_t heightInXbm = (height + 1) / 2;
@@ -1865,7 +1874,7 @@ void EPaperDrive::EPD_Init(void)
     {
         // Serial.printf("开始全刷初始化 \n");
         driver_delay_xms(10);
-        ReadBusy(); //读busy信号
+        ReadBusy(); // 读busy信号
 
         EPD_WriteCMD(0x12); // 软件复位    soft  reset
         ReadBusy();
@@ -2089,13 +2098,13 @@ void EPaperDrive::EPD_init_Full(void)
         // Serial.printf("即将写入全刷波形 \n");
         EPD_Write((uint8_t *)LUTDefault_full_GDEY042Z98, sizeof(LUTDefault_full_GDEY042Z98));
 
-        //EPD_WriteCMD(0x3F);
-        //EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 227 + 1));
+        // EPD_WriteCMD(0x3F);
+        // EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 227 + 1));
 
-        EPD_WriteCMD(0x03); //门电压   gate voltage
+        EPD_WriteCMD(0x03); // 门电压   gate voltage
         EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 228 + 1));
 
-        EPD_WriteCMD(0x04); //源电压   source voltage
+        EPD_WriteCMD(0x04); // 源电压   source voltage
         EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 229 + 1));
         EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 230 + 1));
         EPD_WriteData(*(LUTDefault_full_GDEY042Z98 + 231 + 1));
@@ -2241,10 +2250,10 @@ void EPaperDrive::EPD_init_Part(void)
         EPD_WriteCMD(0x3F);
         EPD_WriteData(*(LUTDefault_part_GDEY042Z98 + 227 + 1));
 
-        EPD_WriteCMD(0x03); //门电压   gate voltage
+        EPD_WriteCMD(0x03); // 门电压   gate voltage
         EPD_WriteData(*(LUTDefault_part_GDEY042Z98 + 228 + 1));
 
-        EPD_WriteCMD(0x04); //源电压   source voltage
+        EPD_WriteCMD(0x04); // 源电压   source voltage
         EPD_WriteData(*(LUTDefault_part_GDEY042Z98 + 229 + 1));
         EPD_WriteData(*(LUTDefault_part_GDEY042Z98 + 230 + 1));
         EPD_WriteData(*(LUTDefault_part_GDEY042Z98 + 231 + 1));
@@ -2443,7 +2452,7 @@ void EPaperDrive::EPD_Dis_Full(uint8_t *DisBuffer, uint8_t Label)
         else if (EPD_Type == GDEY042Z98 || EPD_Type == HINKE0266A15A0)
         {
             EPD_SetRamPointer(xStart / 8, yEnd % 256, yEnd / 256);
-            EPD_WriteDispRam_Old(xDot / 8, yDot, (uint8_t *)DisBuffer, 0, 1); //我也不知道啥情况，但是如果你不对这个寄存器写两遍一样的数据局刷无效
+            EPD_WriteDispRam_Old(xDot / 8, yDot, (uint8_t *)DisBuffer, 0, 1); // 我也不知道啥情况，但是如果你不对这个寄存器写两遍一样的数据局刷无效
             // EPD_WriteDispRam_Old(xDot / 8, yDot, (uint8_t *)DisBuffer, 0, 1);
         }
         else
@@ -2455,7 +2464,7 @@ void EPaperDrive::EPD_Dis_Full(uint8_t *DisBuffer, uint8_t Label)
 
     else if (EPD_Type == WF29 || EPD_Type == WF58 || EPD_Type == WF29BZ03 || EPD_Type == C154 || EPD_Type == WF42 || EPD_Type == WFT0290CZ10)
     {
-        if(EPD_Type == WFT0290CZ10)
+        if (EPD_Type == WFT0290CZ10)
         {
             EPD_WriteDispRam_Old(xDot / 8, yDot, (uint8_t *)DisBuffer, 0, 0xff);
         }
@@ -2504,9 +2513,33 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
     }
     unsigned int Xsize = xEnd - xStart;
     unsigned int Ysize = yEnd - yStart + 1;
-    if (Xsize % 8 != 0)
+
+    switch (EPD_Type)
     {
-        Xsize = Xsize + (8 - Xsize % 8);
+    case WX29:
+    case WFT0290CZ10:
+    case DKE29_3COLOR:
+    case WF29:
+        if (xStart % 8 != 0)
+        {
+            xStart = xStart - xStart % 8;
+        }
+        if (xEnd % 8 != 0)
+        {
+            xEnd + (8 - xEnd % 8);
+        }
+        break;
+
+    default:
+        if (yStart % 8 != 0)
+        {
+            yStart = yStart - yStart % 8;
+        }
+        if (yEnd % 8 != 0)
+        {
+            yEnd + (8 - yEnd % 8);
+        }
+        break;
     }
     Xsize = Xsize / 8;
     unsigned int offset = yStart * xDot / 8 + xStart / 8;
@@ -2533,7 +2566,7 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
             // Serial.printf("即将写入的是局刷的的0x26数据 \n");
             EPD_WriteDispRam_Old(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
         }
-        else if (EPD_Type == GDEY042Z98 )
+        else if (EPD_Type == GDEY042Z98)
         {
 
             EPD_WriteDispRam_Old(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
@@ -2544,11 +2577,11 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
             EPD_SetRamPointer(xStart / 8, yEnd % 256, yEnd / 256);
             EPD_WriteDispRam_Old(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
         }
-        else if(EPD_Type == OPM42 || EPD_Type == DKE42_3COLOR)
+        else if (EPD_Type == OPM42 || EPD_Type == DKE42_3COLOR)
         {
             EPD_WriteDispRam(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);
         }
-        else if(EPD_Type == WX29)
+        else if (EPD_Type == WX29)
         {
             EPD_SetRamPointer(xStart / 8, yEnd % 256, yEnd / 256);
             EPD_WriteDispRam(Xsize, Ysize, (uint8_t *)DisBuffer, offset, 1);

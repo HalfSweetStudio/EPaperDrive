@@ -697,7 +697,7 @@ void EPaperDrive::DrawUnicodeChar(int16_t x, int16_t y, uint8_t width, uint8_t h
             drawXbm(x, y, width, height, (uint8_t *)zi);
         } */
     // 上面这坨代码我也不知道是干啥的，看着好像没用就注释了
-    drawXbm(x, y, width, height, (uint8_t *)zi);
+    drawXbm(x, y, width, height, (uint8_t *)zi); //上面注释里面需要的东西
     // SPIFFS.end();
 }
 
@@ -2522,7 +2522,7 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
     case WF29:
         if (xStart % 8 != 0)
         {
-            xStart = xStart - xStart % 8;
+            xStart = xStart - (xStart % 8);
         }
         if (xEnd % 8 != 0)
         {
@@ -2533,7 +2533,7 @@ void EPaperDrive::EPD_Dis_Part(int xStart, int xEnd, int yStart, int yEnd, uint8
     default:
         if (yStart % 8 != 0)
         {
-            yStart = yStart - yStart % 8;
+            yStart = yStart - (yStart % 8);
         }
         if (yEnd % 8 != 0)
         {
